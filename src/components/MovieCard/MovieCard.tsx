@@ -2,28 +2,34 @@ import { ImageStyle, StyleProp, View } from 'react-native';
 import FastImage from 'react-native-fast-image';
 import styles from './styles';
 import { memo } from 'react';
-import { Typography } from '..';
+import { RemoteImage, Typography } from '..';
 
 interface IMovieCardProps {
+  movie: IMovie;
   thumbnailStyles?: StyleProp<ImageStyle>;
 }
 
 const MovieCard = (props: IMovieCardProps) => {
-  const { thumbnailStyles } = props;
+  const { movie, thumbnailStyles } = props;
   return (
     <View style={[styles.container, thumbnailStyles]}>
-      <FastImage
+      <RemoteImage
         style={styles.thumbnail}
-        source={{
-          uri: 'https://unsplash.it/400/400?image=1',
-          headers: { Authorization: 'someAuthToken' },
-          priority: FastImage.priority.normal,
-        }}
+        posterPath={movie.poster_path}
         resizeMode={FastImage.resizeMode.cover}
       />
       <View style={styles.bottomContainer}>
-        <Typography style={styles.title}>Title</Typography>
-        <Typography style={styles.category}>Category</Typography>
+        <Typography style={styles.title} numberOfLines={2}>
+          {movie.title}
+        </Typography>
+        <Typography style={styles.category} numberOfLines={2}>
+          {movie?.genres?.map((genre, index, arr) => (
+            <Typography key={genre}>
+              {genre}
+              {index !== arr?.length - 1 && ', '}
+            </Typography>
+          ))}
+        </Typography>
       </View>
     </View>
   );

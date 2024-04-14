@@ -1,3 +1,4 @@
+import { useCallback } from 'react';
 import { createStackNavigator } from '@react-navigation/stack';
 import { Home, MovieDetails } from '../screens';
 import { COLORS } from '../theme';
@@ -5,10 +6,21 @@ import { Image, StyleSheet, TouchableOpacity } from 'react-native';
 import { Images } from '../assets/images';
 import { useNavigation } from '@react-navigation/native';
 
-const Stack = createStackNavigator();
+const Stack = createStackNavigator<PrimaryStackParamsList>();
 
 const PrimaryNavigator = () => {
   const navigation = useNavigation();
+
+  const renderHeaderLeft = useCallback(
+    () => (
+      <TouchableOpacity
+        style={styles.backContainer}
+        onPress={navigation.goBack}>
+        <Image source={Images.back} style={styles.backIcon} />
+      </TouchableOpacity>
+    ),
+    [],
+  );
   return (
     <Stack.Navigator
       screenOptions={{
@@ -21,7 +33,7 @@ const PrimaryNavigator = () => {
         },
       }}>
       <Stack.Screen
-        name="HomeScreen"
+        name="Home"
         component={Home}
         options={{ headerShown: false }}
       />
@@ -29,14 +41,7 @@ const PrimaryNavigator = () => {
         name="MovieDetails"
         component={MovieDetails}
         options={{
-          headerLeft: () => (
-            <TouchableOpacity
-              style={styles.backContainer}
-              onPress={navigation.goBack}>
-              <Image source={Images.back} style={styles.backIcon} />
-            </TouchableOpacity>
-          ),
-          headerTitle: 'Movie Details',
+          headerLeft: renderHeaderLeft,
         }}
       />
     </Stack.Navigator>

@@ -36,4 +36,11 @@ export default StyleSheet.create({
     height: 40,
     paddingHorizontal: 8,
   },
+  loadingContainer: {
+    position: 'absolute',
+    top: 0,
+    bottom: 0,
+    left: 0,
+    right: 0,
+  },
 });

@@ -5,6 +5,7 @@ export default StyleSheet.create({
   container: {
     backgroundColor: COLORS.greyBg,
     borderRadius: 8,
+    height: 260,
   },
   thumbnail: {
     width: '100%',
@@ -13,13 +14,17 @@ export default StyleSheet.create({
     borderTopRightRadius: 8,
   },
   title: {
-    fontSize: 16,
+    fontSize: 14,
     fontWeight: 'bold',
   },
   category: {
     fontSize: 12,
+    marginTop: 4,
   },
   bottomContainer: {
     padding: 8,
+  },
+  genresContainer: {
+    flexDirection: 'row',
   },
 });

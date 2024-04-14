@@ -27,6 +27,8 @@ export default StyleSheet.create({
   keywordsContainer: {
     flexDirection: 'row',
     alignItems: 'center',
+    flexGrow: 1,
+    flexWrap: 'wrap',
   },
   keywordWrapper: {
     backgroundColor: '#ccb42d',
@@ -35,5 +37,16 @@ export default StyleSheet.create({
     padding: 2,
     borderRadius: 4,
     marginRight: 8,
+    marginBottom: 8,
+  },
+  keyword: {
+    textTransform: 'capitalize',
+  },
+  loadingContainer: {
+    position: 'absolute',
+    top: 0,
+    left: 0,
+    right: 0,
+    bottom: 0,
   },
 });

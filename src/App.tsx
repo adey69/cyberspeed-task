@@ -4,17 +4,20 @@ import { PrimaryNavigator } from './navigation';
 import { NavigationContainer } from '@react-navigation/native';
 import { SafeAreaProvider } from 'react-native-safe-area-context';
 import { StatusBar, StyleSheet } from 'react-native';
+import { InitializeStore } from './rtk';
+import { Provider } from 'react-redux';
 
 function App() {
+  const { reduxStore } = InitializeStore();
   return (
-    <SafeAreaProvider style={styles.container}>
-      <StatusBar
-        barStyle="light-content" // Here is where you change the font-color
-      />
-      <NavigationContainer>
-        <PrimaryNavigator />
-      </NavigationContainer>
-    </SafeAreaProvider>
+    <Provider store={reduxStore}>
+      <SafeAreaProvider style={styles.container}>
+        <StatusBar barStyle="light-content" />
+        <NavigationContainer>
+          <PrimaryNavigator />
+        </NavigationContainer>
+      </SafeAreaProvider>
+    </Provider>
   );
 }
 
