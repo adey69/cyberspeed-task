@@ -10,7 +10,9 @@ function CreateStore() {
   const reduxStore = configureStore({
     reducer: RootReducer,
     middleware: getDefaultMiddleware =>
-      getDefaultMiddleware({}).concat(middlewares),
+      getDefaultMiddleware({
+        serializableCheck: false,
+      }).concat(middlewares),
     devTools: process.env.NODE_ENV !== 'production',
   });
 

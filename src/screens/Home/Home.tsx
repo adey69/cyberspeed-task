@@ -10,6 +10,7 @@ import { SafeAreaView } from 'react-native-safe-area-context';
 import {
   ActivityIndicator,
   EmptyList,
+  ErrorModal,
   MovieCard,
   Typography,
 } from '../../components';
@@ -28,10 +29,18 @@ const Home = () => {
     handleSearchInput,
     clearSearch,
   } = useSearching();
-  const { isLoading, config, genres, isConnected, handleMovieSelection } =
-    useHome({
-      searching,
-    });
+  const {
+    isLoading,
+    config,
+    genres,
+    isConnected,
+    errorMessage,
+    showErrorModal,
+    setShowErrorModal,
+    handleMovieSelection,
+  } = useHome({
+    searching,
+  });
 
   const renderItem = useCallback(
     ({ item, index }: ListRenderItemInfo<IMovie>) => {
@@ -98,6 +107,11 @@ const Home = () => {
           <ActivityIndicator animating={isLoading} />
         </View>
       )}
+      <ErrorModal
+        message={errorMessage?.message ?? ''}
+        visible={showErrorModal}
+        setModalVisible={setShowErrorModal}
+      />
     </SafeAreaView>
   );
 };

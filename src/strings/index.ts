@@ -9,4 +9,5 @@ export const APP_TEXT = {
   noMoviesToShow: 'No movies to show',
   noReview: 'No reviews available',
   noInternetConnection: 'No Internet Connection',
+  close: 'Close',
 };

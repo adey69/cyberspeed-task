@@ -22,16 +22,29 @@ export default ({ searching }: IUseHomeParams) => {
   const randomMovies = useAppSelector(randomMoviesSelector);
   const genres = useAppSelector(genresSelector);
   const [isConnected, setIsConnected] = useState(false);
+  const [showErrorModal, setShowErrorModal] = useState(false);
   const dispatch = useAppDispatch();
 
-  const { isError, isLoading: isLoadingMovies } = useGetRandomMoviesQuery({});
-  const { isLoading: isLoadingGenres, data: genreList } = useGetGenreListQuery(
-    {},
-  );
+  const {
+    isError,
+    isLoading: isLoadingMovies,
+    error: moviesError,
+  } = useGetRandomMoviesQuery({});
+
+  const {
+    isLoading: isLoadingGenres,
+    data: genreList,
+    error: genreListError,
+  } = useGetGenreListQuery({});
 
   const isLoading = useMemo(
     () => isLoadingMovies || isLoadingGenres || searching,
     [isLoadingMovies, isLoadingGenres, searching],
+  );
+
+  const errorMessage = useMemo(
+    () => moviesError ?? genreListError ?? undefined,
+    [moviesError, genreListError],
   );
 
   const navigateToDetails = () => {
@@ -44,7 +57,7 @@ export default ({ searching }: IUseHomeParams) => {
   };
 
   useEffect(() => {
-    if (genreList) {
+    if (genreList && !genreListError) {
       dispatch(MoviesSliceActions.setMovieGenres(genreList));
     }
   }, [randomMovies.length]);
@@ -57,6 +70,10 @@ export default ({ searching }: IUseHomeParams) => {
     return () => unsubscribe();
   }, []);
 
+  useEffect(() => {
+    setShowErrorModal(!!errorMessage);
+  }, [errorMessage]);
+
   return {
     isLoading,
     isError,
@@ -64,6 +81,9 @@ export default ({ searching }: IUseHomeParams) => {
     genres,
     randomMovies,
     isConnected,
+    errorMessage,
+    showErrorModal,
+    setShowErrorModal,
     handleMovieSelection,
   };
 };

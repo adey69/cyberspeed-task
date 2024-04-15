@@ -15,6 +15,7 @@ export abstract class Base {
   protected async request<T>(
     endpoint: string,
     options?: RequestInit,
+    resource?: string,
   ): Promise<T> {
     const url = `${this.baseUrl}${endpoint}`;
     const headers = {
@@ -28,6 +29,13 @@ export abstract class Base {
       const data = await response.json();
       return data as T;
     }
-    throw new Error(response.statusText);
+    if (response.status === 401) {
+      throw new Error("You're not authorized to access this resource.");
+    } else if (response.status === 404) {
+      throw new Error(
+        `The requested resource i.e. ${resource}, could not be found.`,
+      );
+    }
+    throw new Error('Something went wrong.');
   }
 }

@@ -23,8 +23,12 @@ export class Movies extends Base {
   }
 
   async getRandomMovies(): Promise<IMovie[]> {
-    const movies = await this.request<IMoviesList>(`movie/popular`);
     const config = await this.getConfiguration();
+    const movies = await this.request<IMoviesList>(
+      `movie/popular`,
+      {},
+      'movies',
+    );
     const transformedMovies = movies.results?.slice(0, 10).map(movie => ({
       ...movie,
       poster_path: `${config?.images?.secure_base_url}original${movie.poster_path}`,
@@ -33,13 +37,19 @@ export class Movies extends Base {
   }
 
   async getGenreList(): Promise<IGenre[]> {
-    const genreList = await this.request<IGenreList>('genre/movie/list');
+    const genreList = await this.request<IGenreList>(
+      'genre/movie/list',
+      {},
+      'genres',
+    );
     return genreList.genres;
   }
 
   async getKeywordsList(movieId: number): Promise<IKeyword[]> {
     const keywordsList = await this.request<IKeywordsList>(
-      `movie/${movieId}/keywords`,
+      `movie/${movieId}/keywors`,
+      {},
+      'keywords',
     );
     return keywordsList.keywords;
   }
@@ -47,6 +57,8 @@ export class Movies extends Base {
   async getMovieActors(movieId: number): Promise<IActor[]> {
     const castList = await this.request<IActorsList>(
       `movie/${movieId}/credits`,
+      {},
+      'actors',
     );
     const actorsList = castList.cast.filter(
       cast => cast.known_for_department === 'Acting',
@@ -57,6 +69,8 @@ export class Movies extends Base {
   async getSearchedMovies(title: string): Promise<IMovie[]> {
     const movies = await this.request<IMoviesList>(
       `search/movie?query=${title}`,
+      {},
+      'movies',
     );
     const transformedMovies = movies.results?.slice(0, 10).map(movie => ({
       ...movie,
@@ -68,6 +82,8 @@ export class Movies extends Base {
   async getMovieReviews(movieId: number): Promise<IReview[]> {
     const reviews = await this.request<IReviewsList>(
       `movie/${movieId}/reviews`,
+      {},
+      'reviews',
     );
     return reviews.results?.slice(0, 10);
   }

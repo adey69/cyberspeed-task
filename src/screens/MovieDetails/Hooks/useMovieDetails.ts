@@ -1,4 +1,4 @@
-import { useEffect, useLayoutEffect, useMemo } from 'react';
+import { useEffect, useLayoutEffect, useMemo, useState } from 'react';
 import {
   MoviesSliceActions,
   selectedMovieActorsSelector,
@@ -19,21 +19,35 @@ export default () => {
   const movieKeywords = useAppSelector(selectedMovieKeywordsSelector);
   const movieActors = useAppSelector(selectedMovieActorsSelector);
   const movieReviews = useAppSelector(selectedMovieReviewsSelector);
+  const [showErrorModal, setShowErrorModal] = useState(false);
   const navigation = useNavigation<PrimaryStackNavigationProp>();
 
   const dispatch = useAppDispatch();
 
-  const { isLoading: isKeywordsLoading, data: keywords } =
-    useGetMovieKeywordsQuery(selectedMovie?.id!);
-  const { isLoading: isActorsLoading, data: actors } = useGetMovieActorsQuery(
-    selectedMovie?.id!,
-  );
-  const { isLoading: isReviewsLoading, data: reviews } =
-    useGetMovieReviewsQuery(selectedMovie?.id!);
+  const {
+    isLoading: isKeywordsLoading,
+    data: keywords,
+    error: keywordsError,
+  } = useGetMovieKeywordsQuery(selectedMovie?.id!);
+  const {
+    isLoading: isActorsLoading,
+    data: actors,
+    error: actorsError,
+  } = useGetMovieActorsQuery(selectedMovie?.id!);
+  const {
+    isLoading: isReviewsLoading,
+    data: reviews,
+    error: reviewsError,
+  } = useGetMovieReviewsQuery(selectedMovie?.id!);
 
   const isLoading = useMemo(
     () => isKeywordsLoading || isActorsLoading || isReviewsLoading,
     [isKeywordsLoading, isActorsLoading, isReviewsLoading],
+  );
+
+  const errorMessage = useMemo(
+    () => keywordsError ?? actorsError ?? reviewsError ?? undefined,
+    [keywordsError, actorsError, reviewsError],
   );
 
   const handleLinkPress = async (url: string) => {
@@ -67,12 +81,19 @@ export default () => {
     }
   }, [reviews]);
 
+  useEffect(() => {
+    setShowErrorModal(!!errorMessage);
+  }, [errorMessage]);
+
   return {
     selectedMovie,
     isLoading,
     movieActors,
     movieKeywords,
     movieReviews,
+    errorMessage,
+    showErrorModal,
+    setShowErrorModal,
     handleLinkPress,
   };
 };

@@ -10,6 +10,7 @@ import { useCallback } from 'react';
 import {
   ActivityIndicator,
   EmptyList,
+  ErrorModal,
   RemoteImage,
   Typography,
 } from '../../components';
@@ -24,6 +25,9 @@ const MovieDetails = () => {
     movieKeywords,
     movieReviews,
     isLoading,
+    errorMessage,
+    showErrorModal,
+    setShowErrorModal,
     handleLinkPress,
   } = useMovieDetails();
 
@@ -113,6 +117,11 @@ const MovieDetails = () => {
           <ActivityIndicator animating={isLoading} />
         </View>
       )}
+      <ErrorModal
+        message={errorMessage?.message ?? ''}
+        visible={showErrorModal}
+        setModalVisible={setShowErrorModal}
+      />
     </ScrollView>
   );
 };
