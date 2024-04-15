@@ -47,7 +47,7 @@ export class Movies extends Base {
 
   async getKeywordsList(movieId: number): Promise<IKeyword[]> {
     const keywordsList = await this.request<IKeywordsList>(
-      `movie/${movieId}/keywors`,
+      `movie/${movieId}/keywords`,
       {},
       'keywords',
     );
