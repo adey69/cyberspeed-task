@@ -35,3 +35,8 @@ export const selectedMovieKeywordsSelector = createSelector(
   (state: IRootState) => state.movies.selectedMovie,
   state => state?.keywords ?? [],
 );
+
+export const selectedMovieReviewsSelector = createSelector(
+  (state: IRootState) => state.movies.selectedMovie,
+  state => state?.reviews ?? [],
+);

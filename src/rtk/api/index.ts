@@ -1,20 +1,20 @@
 import MoviesApi, {
   useGetRandomMoviesQuery,
-  useGetConfigurationQuery,
   useGetGenreListQuery,
   useGetMovieKeywordsQuery,
   useGetMovieActorsQuery,
   useLazyGetMovieActorsQuery,
   useLazyGetMovieKeywordsQuery,
+  useGetMovieReviewsQuery,
 } from './moviesApi';
 
 export {
   MoviesApi,
   useGetRandomMoviesQuery,
-  useGetConfigurationQuery,
   useGetGenreListQuery,
   useGetMovieKeywordsQuery,
   useGetMovieActorsQuery,
   useLazyGetMovieActorsQuery,
   useLazyGetMovieKeywordsQuery,
+  useGetMovieReviewsQuery,
 };

@@ -18,6 +18,9 @@ export default StyleSheet.create({
   separator: {
     height: 16,
   },
+  listContainer: {
+    flexGrow: 1,
+  },
   searchInputWrapper: {
     backgroundColor: COLORS.greyBg,
     flexDirection: 'row',

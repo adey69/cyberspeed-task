@@ -1,18 +1,13 @@
-export interface IMovie {
-  id: number;
-  title: string;
-  overview: string;
-  release_date: string;
-  poster_path: string;
-  genres?: string[];
-  genre_ids?: number[];
-  keywords?: string[];
-  actors?: IActor[];
-}
-
 interface ICommonProps {
   id: number;
   name: string;
+}
+
+export interface IReview {
+  author: string;
+  content: string;
+  updated_at: string;
+  url: string;
 }
 
 export interface IGenre extends ICommonProps {}
@@ -25,6 +20,23 @@ export interface IActor extends ICommonProps {
 
 export interface IMoviesList {
   results: IMovie[];
+}
+
+export interface IReviewsList {
+  results: IReview[];
+}
+
+export interface IMovie {
+  id: number;
+  title: string;
+  overview: string;
+  release_date: string;
+  poster_path: string;
+  genres?: string[];
+  genre_ids?: number[];
+  keywords?: string[];
+  actors?: IActor[];
+  reviews?: IReview[];
 }
 
 export interface IConfiguration {

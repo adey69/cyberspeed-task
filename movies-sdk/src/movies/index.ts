@@ -9,17 +9,27 @@ import {
   IKeywordsList,
   IMovie,
   IMoviesList,
+  IReview,
+  IReviewsList,
 } from './types';
 
 export class Movies extends Base {
-  async getRandomMovies(): Promise<IMovie[]> {
-    const movies = await this.request<IMoviesList>(`movie/popular`);
-    return movies?.results?.slice(0, 10);
-  }
+  private config: IConfiguration;
 
   async getConfiguration(): Promise<IConfiguration> {
     const config = await this.request<IConfiguration>(`configuration`);
+    this.config = config;
     return config;
+  }
+
+  async getRandomMovies(): Promise<IMovie[]> {
+    const movies = await this.request<IMoviesList>(`movie/popular`);
+    const config = await this.getConfiguration();
+    const transformedMovies = movies.results?.slice(0, 10).map(movie => ({
+      ...movie,
+      poster_path: `${config?.images?.secure_base_url}original${movie.poster_path}`,
+    }));
+    return transformedMovies;
   }
 
   async getGenreList(): Promise<IGenre[]> {
@@ -48,7 +58,17 @@ export class Movies extends Base {
     const movies = await this.request<IMoviesList>(
       `search/movie?query=${title}`,
     );
+    const transformedMovies = movies.results?.slice(0, 10).map(movie => ({
+      ...movie,
+      poster_path: `${this.config?.images?.secure_base_url}original${movie.poster_path}`,
+    }));
+    return transformedMovies;
+  }
 
-    return movies.results;
+  async getMovieReviews(movieId: number): Promise<IReview[]> {
+    const reviews = await this.request<IReviewsList>(
+      `movie/${movieId}/reviews`,
+    );
+    return reviews.results?.slice(0, 10);
   }
 }

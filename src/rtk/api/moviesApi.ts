@@ -15,16 +15,6 @@ const MoviesApi = createApi({
         }
       },
     }),
-    getConfiguration: builder.query({
-      queryFn: async () => {
-        try {
-          const configuration = await client.getConfiguration();
-          return { data: configuration };
-        } catch (error) {
-          return { error };
-        }
-      },
-    }),
     getGenreList: builder.query({
       queryFn: async () => {
         try {
@@ -65,16 +55,26 @@ const MoviesApi = createApi({
         }
       },
     }),
+    getMovieReviews: builder.query({
+      queryFn: async (id: number) => {
+        try {
+          const reviews = await client.getMovieReviews(id);
+          return { data: reviews };
+        } catch (error) {
+          return { error };
+        }
+      },
+    }),
   }),
 });
 export default MoviesApi;
 export const {
   useGetRandomMoviesQuery,
-  useGetConfigurationQuery,
   useGetGenreListQuery,
   useGetMovieKeywordsQuery,
   useGetMovieActorsQuery,
   useLazySearchMoviesQuery,
   useLazyGetMovieActorsQuery,
   useLazyGetMovieKeywordsQuery,
+  useGetMovieReviewsQuery,
 } = MoviesApi;

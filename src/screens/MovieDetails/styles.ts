@@ -52,4 +52,41 @@ export default StyleSheet.create({
     right: 0,
     bottom: 0,
   },
+  reviewHeader: {
+    fontSize: 14,
+    fontWeight: 'bold',
+    marginTop: 16,
+    marginBottom: 8,
+  },
+  reviewContainer: {
+    marginBottom: 12,
+  },
+  reviewTopRow: {
+    flexDirection: 'row',
+    alignItems: 'center',
+  },
+  reviewAuthor: {
+    fontSize: 12,
+    fontWeight: '600',
+    marginRight: 4,
+  },
+  reviewDate: {
+    fontSize: 10,
+    color: COLORS.borderGrey,
+  },
+  reviewContent: {
+    fontSize: 10,
+    marginVertical: 8,
+  },
+  urlContainer: {
+    flexDirection: 'row',
+    alignItems: 'center',
+  },
+  urlLabel: {
+    fontSize: 10,
+  },
+  reviewLink: {
+    textDecorationLine: 'underline',
+    fontSize: 10,
+  },
 });

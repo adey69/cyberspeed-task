@@ -15,7 +15,7 @@ const MovieCard = (props: IMovieCardProps) => {
     <View style={[styles.container, thumbnailStyles]}>
       <RemoteImage
         style={styles.thumbnail}
-        posterPath={movie.poster_path}
+        source={{ uri: movie.poster_path }}
         resizeMode={FastImage.resizeMode.cover}
       />
       <View style={styles.bottomContainer}>

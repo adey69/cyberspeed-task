@@ -6,11 +6,10 @@ import {
   randomMoviesSelector,
   useAppDispatch,
   useAppSelector,
-  useGetConfigurationQuery,
   useGetGenreListQuery,
   useGetRandomMoviesQuery,
 } from '../../../rtk';
-import { useMemo } from 'react';
+import { useEffect, useMemo } from 'react';
 
 interface IUseHomeParams {
   searching: boolean;
@@ -19,17 +18,18 @@ interface IUseHomeParams {
 export default ({ searching }: IUseHomeParams) => {
   const navigation = useNavigation<PrimaryStackNavigationProp>();
   const config = useAppSelector(configurationSelector);
-  const moviesSelector = useAppSelector(randomMoviesSelector);
+  const randomMovies = useAppSelector(randomMoviesSelector);
   const genres = useAppSelector(genresSelector);
   const dispatch = useAppDispatch();
 
   const { isError, isLoading: isLoadingMovies } = useGetRandomMoviesQuery({});
-  const { isLoading: isLoadingConfig } = useGetConfigurationQuery({});
-  const { isLoading: isLoadingGenres } = useGetGenreListQuery({});
+  const { isLoading: isLoadingGenres, data: genreList } = useGetGenreListQuery(
+    {},
+  );
 
   const isLoading = useMemo(
-    () => isLoadingMovies || isLoadingConfig || isLoadingGenres || searching,
-    [isLoadingConfig, isLoadingMovies, isLoadingGenres, searching],
+    () => isLoadingMovies || isLoadingGenres || searching,
+    [isLoadingMovies, isLoadingGenres, searching],
   );
 
   const navigateToDetails = () => {
@@ -41,12 +41,18 @@ export default ({ searching }: IUseHomeParams) => {
     navigateToDetails();
   };
 
+  useEffect(() => {
+    if (genreList) {
+      dispatch(MoviesSliceActions.setMovieGenres(genreList));
+    }
+  }, [randomMovies.length]);
+
   return {
     isLoading,
     isError,
     config,
     genres,
-    randomMovies: moviesSelector,
+    randomMovies,
     handleMovieSelection,
   };
 };

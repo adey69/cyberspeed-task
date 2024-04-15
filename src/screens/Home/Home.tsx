@@ -7,7 +7,7 @@ import {
   View,
 } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
-import { ActivityIndicator, MovieCard } from '../../components';
+import { ActivityIndicator, EmptyList, MovieCard } from '../../components';
 import { Images } from '../../assets/images';
 import { APP_TEXT } from '../../strings';
 import { COLORS } from '../../theme';
@@ -44,6 +44,10 @@ const Home = () => {
     return <View style={styles.separator} />;
   }, []);
 
+  const renderEmptyList = useCallback(() => {
+    return <EmptyList text={APP_TEXT.noMoviesToShow} />;
+  }, []);
+
   return (
     <SafeAreaView style={styles.container}>
       <View style={styles.searchInputWrapper}>
@@ -62,6 +66,7 @@ const Home = () => {
         )}
       </View>
       <FlatList
+        contentContainerStyle={styles.listContainer}
         keyExtractor={item => item.id.toString()}
         extraData={[config, genres]}
         data={moviesToShow ?? []}
@@ -69,6 +74,7 @@ const Home = () => {
         numColumns={2}
         showsVerticalScrollIndicator={false}
         ItemSeparatorComponent={renderSeparator}
+        ListEmptyComponent={renderEmptyList}
       />
       {isLoading && (
         <View style={styles.loadingContainer}>
