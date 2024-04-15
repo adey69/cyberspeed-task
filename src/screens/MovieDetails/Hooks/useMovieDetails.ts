@@ -1,8 +1,10 @@
-import { useLayoutEffect, useMemo } from 'react';
+import { useEffect, useLayoutEffect, useMemo } from 'react';
 import {
+  MoviesSliceActions,
   selectedMovieActorsSelector,
   selectedMovieKeywordsSelector,
   selectedMovieSelector,
+  useAppDispatch,
   useAppSelector,
   useGetMovieActorsQuery,
   useGetMovieKeywordsQuery,
@@ -14,6 +16,7 @@ export default () => {
   const movieKeywords = useAppSelector(selectedMovieKeywordsSelector);
   const movieActors = useAppSelector(selectedMovieActorsSelector);
   const navigation = useNavigation<PrimaryStackNavigationProp>();
+  const dispatch = useAppDispatch();
 
   const { isLoading: isKeywordsLoading } = useGetMovieKeywordsQuery(
     selectedMovie?.id!,
@@ -32,6 +35,12 @@ export default () => {
       headerTitle: selectedMovie?.title ?? 'Movie Details',
     });
   });
+
+  useEffect(() => {
+    return () => {
+      dispatch(MoviesSliceActions.setSelectedMovie(undefined));
+    };
+  }, []);
 
   return {
     selectedMovie,

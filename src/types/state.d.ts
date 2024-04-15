@@ -7,4 +7,5 @@ interface IMoviesState {
   imagesConfig?: IImagesConfiguration;
   genres: IGenre[];
   selectedMovie?: IMovie;
+  searchedMovies: IMovie[];
 }

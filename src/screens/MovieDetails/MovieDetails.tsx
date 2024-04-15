@@ -1,4 +1,4 @@
-import { View } from 'react-native';
+import { ScrollView, View } from 'react-native';
 import FastImage from 'react-native-fast-image';
 import { ActivityIndicator, RemoteImage, Typography } from '../../components';
 import { useMovieDetails } from './Hooks';
@@ -8,7 +8,9 @@ const MovieDetails = () => {
   const { selectedMovie, movieActors, movieKeywords, isLoading } =
     useMovieDetails();
   return (
-    <View style={styles.container}>
+    <ScrollView
+      style={styles.container}
+      contentContainerStyle={styles.scrollContainer}>
       <RemoteImage
         style={styles.cover}
         posterPath={selectedMovie?.poster_path ?? ''}
@@ -45,7 +47,7 @@ const MovieDetails = () => {
           <ActivityIndicator animating={isLoading} />
         </View>
       )}
-    </View>
+    </ScrollView>
   );
 };
 

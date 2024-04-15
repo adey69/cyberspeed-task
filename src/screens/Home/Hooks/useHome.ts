@@ -12,7 +12,11 @@ import {
 } from '../../../rtk';
 import { useMemo } from 'react';
 
-export default () => {
+interface IUseHomeParams {
+  searching: boolean;
+}
+
+export default ({ searching }: IUseHomeParams) => {
   const navigation = useNavigation<PrimaryStackNavigationProp>();
   const config = useAppSelector(configurationSelector);
   const moviesSelector = useAppSelector(randomMoviesSelector);
@@ -24,8 +28,8 @@ export default () => {
   const { isLoading: isLoadingGenres } = useGetGenreListQuery({});
 
   const isLoading = useMemo(
-    () => isLoadingMovies || isLoadingConfig || isLoadingGenres,
-    [isLoadingConfig, isLoadingMovies, isLoadingGenres],
+    () => isLoadingMovies || isLoadingConfig || isLoadingGenres || searching,
+    [isLoadingConfig, isLoadingMovies, isLoadingGenres, searching],
   );
 
   const navigateToDetails = () => {

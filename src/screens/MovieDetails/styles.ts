@@ -6,6 +6,9 @@ export default StyleSheet.create({
     flex: 1,
     backgroundColor: COLORS.blackBg,
   },
+  scrollContainer: {
+    paddingBottom: 20,
+  },
   cover: {
     width: Dimensions.get('screen').width,
     height: 250,

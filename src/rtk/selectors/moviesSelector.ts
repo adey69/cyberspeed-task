@@ -6,6 +6,11 @@ export const randomMoviesSelector = createSelector(
   state => state.randomMovies,
 );
 
+export const searchedMoviesSelector = createSelector(
+  (state: IRootState) => state.movies,
+  state => state.searchedMovies,
+);
+
 export const configurationSelector = createSelector(
   (state: IRootState) => state.movies.imagesConfig,
   state => state?.images,

@@ -6,13 +6,17 @@ const INITIAL_STATE: IMoviesState = {
   imagesConfig: undefined,
   genres: [],
   selectedMovie: undefined,
+  searchedMovies: [],
 };
 
 const MoviesSlice = createSlice({
   name: 'Movies',
   initialState: INITIAL_STATE,
   reducers: {
-    setSelectedMovie: (state, { payload }: PayloadAction<IMovie>) => {
+    setSelectedMovie: (
+      state,
+      { payload }: PayloadAction<IMovie | undefined>,
+    ) => {
       state.selectedMovie = payload;
     },
   },
@@ -60,6 +64,26 @@ const MoviesSlice = createSlice({
           ...state.selectedMovie!,
           actors: payload ?? [],
         };
+      },
+    );
+    builder.addMatcher(
+      MoviesApi.endpoints.searchMovies.matchFulfilled,
+      (state, { payload }) => {
+        const results = payload
+          ? payload?.map(movie => {
+              let genres: string[] = [];
+              state.genres.forEach(genre => {
+                if (movie.genre_ids?.includes(genre.id)) {
+                  genres.push(genre.name);
+                }
+              });
+              return {
+                ...movie,
+                genres: genres,
+              };
+            })
+          : [];
+        state.searchedMovies = [...results];
       },
     );
   },

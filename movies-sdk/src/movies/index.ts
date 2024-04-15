@@ -14,7 +14,7 @@ import {
 export class Movies extends Base {
   async getRandomMovies(): Promise<IMovie[]> {
     const movies = await this.request<IMoviesList>(`movie/popular`);
-    return movies.results;
+    return movies?.results?.slice(0, 10);
   }
 
   async getConfiguration(): Promise<IConfiguration> {
@@ -42,5 +42,13 @@ export class Movies extends Base {
       cast => cast.known_for_department === 'Acting',
     );
     return actorsList;
+  }
+
+  async getSearchedMovies(title: string): Promise<IMovie[]> {
+    const movies = await this.request<IMoviesList>(
+      `search/movie?query=${title}`,
+    );
+
+    return movies.results;
   }
 }

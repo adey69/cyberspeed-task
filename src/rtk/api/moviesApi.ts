@@ -55,6 +55,16 @@ const MoviesApi = createApi({
         }
       },
     }),
+    searchMovies: builder.query({
+      queryFn: async (title: string) => {
+        try {
+          const searchedMovies = await client.getSearchedMovies(title);
+          return { data: searchedMovies };
+        } catch (error) {
+          return { error };
+        }
+      },
+    }),
   }),
 });
 export default MoviesApi;
@@ -64,4 +74,7 @@ export const {
   useGetGenreListQuery,
   useGetMovieKeywordsQuery,
   useGetMovieActorsQuery,
+  useLazySearchMoviesQuery,
+  useLazyGetMovieActorsQuery,
+  useLazyGetMovieKeywordsQuery,
 } = MoviesApi;

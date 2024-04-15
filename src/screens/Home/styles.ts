@@ -35,6 +35,7 @@ export default StyleSheet.create({
     flex: 1,
     height: 40,
     paddingHorizontal: 8,
+    color: COLORS.white,
   },
   loadingContainer: {
     position: 'absolute',

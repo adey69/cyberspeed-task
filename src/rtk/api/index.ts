@@ -4,6 +4,8 @@ import MoviesApi, {
   useGetGenreListQuery,
   useGetMovieKeywordsQuery,
   useGetMovieActorsQuery,
+  useLazyGetMovieActorsQuery,
+  useLazyGetMovieKeywordsQuery,
 } from './moviesApi';
 
 export {
@@ -13,4 +15,6 @@ export {
   useGetGenreListQuery,
   useGetMovieKeywordsQuery,
   useGetMovieActorsQuery,
+  useLazyGetMovieActorsQuery,
+  useLazyGetMovieKeywordsQuery,
 };
