@@ -7,7 +7,12 @@ import {
   View,
 } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
-import { ActivityIndicator, EmptyList, MovieCard } from '../../components';
+import {
+  ActivityIndicator,
+  EmptyList,
+  MovieCard,
+  Typography,
+} from '../../components';
 import { Images } from '../../assets/images';
 import { APP_TEXT } from '../../strings';
 import { COLORS } from '../../theme';
@@ -23,14 +28,16 @@ const Home = () => {
     handleSearchInput,
     clearSearch,
   } = useSearching();
-  const { isLoading, config, genres, handleMovieSelection } = useHome({
-    searching,
-  });
+  const { isLoading, config, genres, isConnected, handleMovieSelection } =
+    useHome({
+      searching,
+    });
 
   const renderItem = useCallback(
     ({ item, index }: ListRenderItemInfo<IMovie>) => {
       return (
         <TouchableOpacity
+          activeOpacity={0.5}
           onPress={() => handleMovieSelection(item)}
           style={[styles.cardContainer, index % 2 === 0 && styles.cardMargin]}>
           <MovieCard movie={item} />
@@ -45,8 +52,18 @@ const Home = () => {
   }, []);
 
   const renderEmptyList = useCallback(() => {
-    return <EmptyList text={APP_TEXT.noMoviesToShow} />;
-  }, []);
+    return !isLoading ? <EmptyList text={APP_TEXT.noMoviesToShow} /> : null;
+  }, [isLoading]);
+
+  if (!isConnected) {
+    return (
+      <SafeAreaView style={styles.container}>
+        <View style={styles.loadingContainer}>
+          <Typography>{APP_TEXT.noInternetConnection}</Typography>
+        </View>
+      </SafeAreaView>
+    );
+  }
 
   return (
     <SafeAreaView style={styles.container}>
@@ -60,7 +77,7 @@ const Home = () => {
           placeholderTextColor={COLORS.white}
         />
         {searchInput?.length > 0 && (
-          <TouchableOpacity onPress={clearSearch}>
+          <TouchableOpacity activeOpacity={0.5} onPress={clearSearch}>
             <Image source={Images.close} style={styles.searchIcon} />
           </TouchableOpacity>
         )}

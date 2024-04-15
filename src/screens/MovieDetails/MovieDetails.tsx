@@ -41,7 +41,9 @@ const MovieDetails = () => {
           <Typography style={styles.urlLabel} numberOfLines={1}>
             {APP_TEXT.url}:{' '}
           </Typography>
-          <TouchableOpacity onPress={() => handleLinkPress(item?.url)}>
+          <TouchableOpacity
+            activeOpacity={0.5}
+            onPress={() => handleLinkPress(item?.url)}>
             <Typography style={styles.reviewLink}>{item?.url}</Typography>
           </TouchableOpacity>
         </View>
@@ -51,9 +53,7 @@ const MovieDetails = () => {
   );
   const renderReviewHeader = useCallback(
     () => (
-      <View>
-        <Typography style={styles.reviewHeader}>{APP_TEXT.reviews}</Typography>
-      </View>
+      <Typography style={styles.reviewHeader}>{APP_TEXT.reviews}</Typography>
     ),
     [],
   );

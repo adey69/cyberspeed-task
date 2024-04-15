@@ -14,6 +14,7 @@ const PrimaryNavigator = () => {
   const renderHeaderLeft = useCallback(
     () => (
       <TouchableOpacity
+        activeOpacity={0.5}
         style={styles.backContainer}
         onPress={navigation.goBack}>
         <Image source={Images.back} style={styles.backIcon} />

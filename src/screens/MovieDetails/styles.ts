@@ -30,7 +30,6 @@ export default StyleSheet.create({
   keywordsContainer: {
     flexDirection: 'row',
     alignItems: 'center',
-    flexGrow: 1,
     flexWrap: 'wrap',
   },
   keywordWrapper: {
@@ -53,7 +52,7 @@ export default StyleSheet.create({
     bottom: 0,
   },
   reviewHeader: {
-    fontSize: 14,
+    fontSize: 16,
     fontWeight: 'bold',
     marginTop: 16,
     marginBottom: 8,

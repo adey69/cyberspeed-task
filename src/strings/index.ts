@@ -8,4 +8,5 @@ export const APP_TEXT = {
   na: 'N/A',
   noMoviesToShow: 'No movies to show',
   noReview: 'No reviews available',
+  noInternetConnection: 'No Internet Connection',
 };
