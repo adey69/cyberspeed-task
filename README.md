@@ -2,6 +2,8 @@ Description:
 
 The task at hand requires business logic separation and demonstration of SDK usage in both the mobile and web application, hence I've created all the required tasks in the same directory in a single repository.
 
+I've used TMDB Open API for the data as the provided API didn't allow movie posters to be used in free version. Though I have to mention that TMDB API doesn't provide any endpoint to fetch random movies and search movies based on keywords so search only works with movie titles and the movies listed on the home screen are the currently popular movies.
+
 Mobile Application:
 
 To run the application:
