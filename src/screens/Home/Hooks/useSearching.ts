@@ -1,9 +1,10 @@
-import { useMemo, useState } from 'react';
-import { useLazySearchMoviesQuery } from '../../../rtk/api/moviesApi';
+import { useCallback, useEffect, useMemo, useState } from 'react';
+import debounce from 'lodash.debounce';
 import {
   randomMoviesSelector,
   searchedMoviesSelector,
   useAppSelector,
+  useLazySearchMoviesQuery,
 } from '../../../rtk';
 
 export default () => {
@@ -21,14 +22,26 @@ export default () => {
     [searchInput, searchedMovies, randomMovies],
   );
 
+  const debouncedSearch = useCallback(
+    debounce(textParam => {
+      searchMovies(textParam);
+    }, 500),
+    [],
+  );
+
   const handleSearchInput = (text: string) => {
     setSearchInput(text);
-    searchMovies(text);
   };
 
   const clearSearch = () => {
     setSearchInput('');
   };
+
+  useEffect(() => {
+    if (searchInput?.trim()?.length > 0) {
+      debouncedSearch(searchInput);
+    }
+  }, [searchInput]);
 
   return {
     searchInput,

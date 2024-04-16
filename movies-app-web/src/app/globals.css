@@ -1,0 +1,87 @@
+:root {
+  --white: #fff;
+  --black: #000;
+  --info-red: #a63030;
+  --border-grey: #cccccc;
+  --grey-bg: #383838;
+  --black-bg: #131314;
+}
+
+html {
+  color: var(--white);
+}
+
+h1 {
+  text-align: center;
+  color: var(--black);
+}
+
+.search-field-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin-bottom: 32px;
+}
+
+.search-field {
+  width: 300px;
+  padding: 8px 4px;
+  border-radius: 8px;
+  border-color: var(--border-grey);
+}
+
+.movie-card-container {
+  display: flex;
+  flex-wrap: wrap;
+  padding: 0px 32px;
+}
+
+.movie-card {
+  flex: 1;
+  background-color: var(--grey-bg);
+  padding: 8px;
+  border: 1px solid var(--border-grey);
+  justify-content: center;
+  cursor: pointer;
+  border-radius: 8px;
+  margin-bottom: 10px;
+  width: 300px;
+}
+
+.genre {
+  font-size: small;
+}
+
+.movie-details-page {
+  padding: 48px 32px;
+  color: var(--black);
+}
+
+.top-container {
+  display: flex;
+}
+
+.movie-poster {
+  margin-right: 20px;
+}
+
+.movie-info-container {
+  display: flex;
+  flex-direction: column;
+}
+
+.movie-keywords {
+  text-transform: capitalize;
+}
+
+.movie-actors {
+  text-transform: capitalize;
+}
+
+.review-content {
+  font-size: small;
+}
+.review-date {
+  font-size: x-small;
+  color: var(--grey-bg);
+}

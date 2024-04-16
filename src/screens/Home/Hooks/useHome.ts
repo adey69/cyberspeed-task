@@ -3,7 +3,6 @@ import { useEffect, useMemo, useState } from 'react';
 import NetInfo from '@react-native-community/netinfo';
 import {
   MoviesSliceActions,
-  configurationSelector,
   genresSelector,
   randomMoviesSelector,
   useAppDispatch,
@@ -18,7 +17,6 @@ interface IUseHomeParams {
 
 export default ({ searching }: IUseHomeParams) => {
   const navigation = useNavigation<PrimaryStackNavigationProp>();
-  const config = useAppSelector(configurationSelector);
   const randomMovies = useAppSelector(randomMoviesSelector);
   const genres = useAppSelector(genresSelector);
   const [isConnected, setIsConnected] = useState(false);
@@ -77,7 +75,6 @@ export default ({ searching }: IUseHomeParams) => {
   return {
     isLoading,
     isError,
-    config,
     genres,
     randomMovies,
     isConnected,

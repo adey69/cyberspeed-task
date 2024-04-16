@@ -29,6 +29,7 @@ const MovieDetails = () => {
     showErrorModal,
     setShowErrorModal,
     handleLinkPress,
+    formatDate,
   } = useMovieDetails();
 
   const renderReviewItem = useCallback(
@@ -36,7 +37,9 @@ const MovieDetails = () => {
       <View style={styles.reviewContainer}>
         <View style={styles.reviewTopRow}>
           <Typography style={styles.reviewAuthor}>{item?.author}</Typography>
-          <Typography style={styles.reviewDate}>{item?.updated_at}</Typography>
+          <Typography style={styles.reviewDate}>
+            {formatDate(item?.updated_at)}
+          </Typography>
         </View>
         <Typography style={styles.reviewContent} numberOfLines={4}>
           {item?.content}

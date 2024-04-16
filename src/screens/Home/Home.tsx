@@ -31,7 +31,6 @@ const Home = () => {
   } = useSearching();
   const {
     isLoading,
-    config,
     genres,
     isConnected,
     errorMessage,
@@ -94,7 +93,7 @@ const Home = () => {
       <FlatList
         contentContainerStyle={styles.listContainer}
         keyExtractor={item => item.id.toString()}
-        extraData={[config, genres]}
+        extraData={[genres]}
         data={moviesToShow ?? []}
         renderItem={renderItem}
         numColumns={2}

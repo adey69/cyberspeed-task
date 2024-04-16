@@ -1,4 +1,5 @@
-import { useEffect, useLayoutEffect, useMemo, useState } from 'react';
+'use client';
+
 import {
   MoviesSliceActions,
   selectedMovieActorsSelector,
@@ -10,13 +11,13 @@ import {
   useGetMovieActorsQuery,
   useGetMovieKeywordsQuery,
   useGetMovieReviewsQuery,
-} from '../../../rtk';
-import { useNavigation } from '@react-navigation/native';
-import { Linking } from 'react-native';
+} from '@/rtk';
+import { useEffect, useMemo, useState } from 'react';
 
 const formatDate = (inputString: string) => {
   const date = new Date(inputString);
 
+  // Format the date according to the desired format (dd/mm/yyyy)
   const formattedDate = date.toLocaleDateString('en-GB', {
     day: '2-digit',
     month: '2-digit',
@@ -26,13 +27,12 @@ const formatDate = (inputString: string) => {
   return formattedDate;
 };
 
-export default () => {
+const MovieDetails = () => {
   const selectedMovie = useAppSelector(selectedMovieSelector);
   const movieKeywords = useAppSelector(selectedMovieKeywordsSelector);
   const movieActors = useAppSelector(selectedMovieActorsSelector);
   const movieReviews = useAppSelector(selectedMovieReviewsSelector);
   const [showErrorModal, setShowErrorModal] = useState(false);
-  const navigation = useNavigation<PrimaryStackNavigationProp>();
 
   const dispatch = useAppDispatch();
 
@@ -62,19 +62,6 @@ export default () => {
     [keywordsError, actorsError, reviewsError],
   );
 
-  const handleLinkPress = async (url: string) => {
-    const canOpenUrl = await Linking.canOpenURL(url);
-    if (canOpenUrl) {
-      Linking.openURL(url);
-    }
-  };
-
-  useLayoutEffect(() => {
-    navigation.setOptions({
-      headerTitle: selectedMovie?.title ?? 'Movie Details',
-    });
-  });
-
   useEffect(() => {
     if (actors) {
       dispatch(MoviesSliceActions.setSelectedMovieActors(actors));
@@ -93,20 +80,67 @@ export default () => {
     }
   }, [reviews]);
 
-  useEffect(() => {
-    setShowErrorModal(!!errorMessage);
-  }, [errorMessage]);
+  // useEffect(() => {
+  //   setShowErrorModal(!!errorMessage);
+  // }, [errorMessage]);
 
-  return {
-    selectedMovie,
-    isLoading,
-    movieActors,
-    movieKeywords,
-    movieReviews,
-    errorMessage,
-    showErrorModal,
-    setShowErrorModal,
-    handleLinkPress,
-    formatDate,
-  };
+  if (!selectedMovie) {
+    return (
+      <div className="movie-details-page">
+        <h2>Please select a movie from homepage.</h2>
+      </div>
+    );
+  }
+
+  return (
+    <main className="movie-details-page">
+      <div className="top-container">
+        <img
+          className="movie-poster"
+          src={selectedMovie?.poster_path}
+          alt={selectedMovie?.title + ' Poster'}
+          width={250}
+          height={350}
+        />
+        <div className="movie-info-container">
+          <h2>{selectedMovie?.title}</h2>
+          <p>{selectedMovie?.overview}</p>
+          <p className="movie-actors">
+            Actors:{' '}
+            {movieActors?.map(
+              (actor, index, arr) =>
+                `${actor.name} ${index !== arr.length - 1 ? ', ' : ''}`,
+            )}
+          </p>
+          <p className="movie-keywords">
+            Keywords:{' '}
+            {movieKeywords?.map(
+              (keyword, index, arr) =>
+                `${keyword} ${index !== arr.length - 1 ? ', ' : ''}`,
+            )}
+          </p>
+        </div>
+      </div>
+      <div>
+        <h4>Reviews</h4>
+        {movieReviews?.length > 0 ? (
+          movieReviews?.map(review => (
+            <div>
+              <p>
+                <strong>{review?.author}</strong>{' '}
+                <span className="review-date">
+                  {formatDate(review?.updated_at)}
+                </span>
+              </p>
+              <p className="review-content">{review?.content}</p>
+            </div>
+          ))
+        ) : (
+          <p>No reviews available</p>
+        )}
+      </div>
+    </main>
+  );
 };
+
+export default MovieDetails;
